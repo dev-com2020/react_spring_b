@@ -18,12 +18,12 @@ public class ApiController {
 
     public static Map<String, Employee> DATABASE = new LinkedHashMap<>();
 
-    @PostMapping("/new-employee")
-    Mono<String> newEmployee(@ModelAttribute Mono<Employee> newEmployee) {
-        return newEmployee
+    @PostMapping("/api/employees")
+    Mono<Employee> add(@RequestBody Mono<Employee> newEmployee) {
+        return newEmployee //
                 .map(employee -> {
                     DATABASE.put(employee.name(), employee);
-                    return "redirect:/";
+                    return employee;
                 });
     }
 }

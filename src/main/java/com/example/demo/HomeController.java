@@ -2,6 +2,8 @@ package com.example.demo;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.reactive.result.view.Rendering;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -20,4 +22,14 @@ public class HomeController {
                         .modelAttribute("newEmployee", new Employee("", ""))
                         .build());
     }
+
+    @PostMapping("/new-employee")
+    Mono<String> newEmployee(@ModelAttribute Mono<Employee> newEmployee) {
+        return newEmployee //
+                .map(employee -> {
+                    DATABASE.put(employee.name(), employee);
+                    return "redirect:/";
+                });
+    }
 }
+
