@@ -1,9 +1,6 @@
 package com.example.demo;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -21,12 +18,12 @@ public class ApiController {
 
     public static Map<String, Employee> DATABASE = new LinkedHashMap<>();
 
-    @PostMapping("/api/employees")
-    Mono<Employee> add(@RequestBody Mono<Employee> newEmployee) {
+    @PostMapping("/new-employee")
+    Mono<String> newEmployee(@ModelAttribute Mono<Employee> newEmployee) {
         return newEmployee
                 .map(employee -> {
                     DATABASE.put(employee.name(), employee);
-                    return employee;
+                    return "redirect:/";
                 });
     }
 }
